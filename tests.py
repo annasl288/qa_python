@@ -1,24 +1,55 @@
-from main import BooksCollector
+import pytest
 
-# класс TestBooksCollector объединяет набор тестов, которыми мы покрываем наше приложение BooksCollector
-# обязательно указывать префикс Test
+
 class TestBooksCollector:
 
-    # пример теста:
-    # обязательно указывать префикс test_
-    # дальше идет название метода, который тестируем add_new_book_
-    # затем, что тестируем add_two_books - добавление двух книг
-    def test_add_new_book_add_two_books(self):
-        # создаем экземпляр (объект) класса BooksCollector
-        collector = BooksCollector()
+    def test_get_books_genre_true(self, collector):
+        assert collector.get_books_genre() == {}
 
-        # добавляем две книги
-        collector.add_new_book('Гордость и предубеждение и зомби')
-        collector.add_new_book('Что делать, если ваш кот хочет вас убить')
+    def test_get_list_of_favorites_books_true(self, collector):
+        assert collector.get_list_of_favorites_books() == []
 
-        # проверяем, что добавилось именно две
-        # словарь books_rating, который нам возвращает метод get_books_rating, имеет длину 2
-        assert len(collector.get_books_rating()) == 2
+    def test_genre_true(self, collector):
+        assert collector.genre == ['Фантастика', 'Ужасы', 'Детективы', 'Мультфильмы', 'Комедии']
 
-    # напиши свои тесты ниже
-    # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
+    def test_genre_age_rating_true(self, collector):
+        assert collector.genre_age_rating == ['Ужасы', 'Детективы']
+
+    @pytest.mark.parametrize('name', ['Я', 'Турецкий гамбит', 'Удивительные приключения Робинзона Крузо'])
+    def test_add_new_book_one_book_true(self, name, collector):
+        collector.add_new_book(name)
+        assert len(collector.get_books_genre()) == 1
+
+    def test_add_new_book_empty_name_false(self, collector):
+        collector.add_new_book('')
+        assert len(collector.get_books_genre()) == 0
+
+    def test_set_book_genre_true(self, collector):
+        collector.books_genre['Турецкий гамбит'] = ''
+        collector.set_book_genre('Турецкий гамбит', 'Детективы')
+        assert collector.get_book_genre('Турецкий гамбит') == 'Детективы'
+
+    def test_get_books_with_specific_genre_true(self, collector):
+        collector.add_new_book('Властелин колец')
+        collector.set_book_genre('Властелин колец', 'Фантастика')
+        assert len(collector.get_books_with_specific_genre('Фантастика')) == 1
+
+    def test_get_books_for_children_true(self, collector):
+        collector.add_new_book('Турецкий гамбит')
+        collector.set_book_genre('Турецкий гамбит', 'Детективы')
+        collector.add_new_book('Властелин колец')
+        collector.set_book_genre('Властелин колец', 'Фантастика')
+        assert 'Турецкий гамбит' not in collector.get_books_for_children()
+
+    def test_add_book_in_favorites_true(self, collector):
+        collector.add_new_book('Властелин колец')
+        collector.add_book_in_favorites('Властелин колец')
+        assert len(collector.get_list_of_favorites_books()) == 1
+
+    def test_delete_book_from_favorites_true(self, collector):
+        collector.add_new_book('Турецкий гамбит')
+        collector.add_new_book('Властелин колец')
+        for book in collector.get_books_genre():
+            collector.add_book_in_favorites(book)
+        collector.delete_book_from_favorites('Турецкий гамбит')
+        assert 'Турецкий гамбит' not in collector.get_list_of_favorites_books()
