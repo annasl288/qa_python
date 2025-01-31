@@ -1,1 +1,12 @@
-# qa_python
+## 28/01/2025 Добавлены тесты:
+- *test_get_books_genre_true* - проверяет, что get_books_genre выводит текущий словарь books_genre
+- *test_get_list_of_favorites_books_true* - проверяет, что get_list_of_favorites_books выводит текущий список favorites
+- *test_genre_true* - проверяет, что список genre содержит доступные жанры
+- *test_genre_age_rating_true* - проверяет, что список genre_age_rating содержит жанры с возрастным рейтингом
+- *test_add_new_book_one_book_true* - проверяет, что книги с названиями длиной от 1 до 40 символов включительно добавляются в словарь books_genre
+- *test_add_new_book_empty_name_false* - проверяет, что метод add_new_book не добавляет книгу без названия в словарь books_genre
+- *test_set_book_genre_true* - проверяет, что метод set_book_genre добавляет жанр из списка genre к книге в словаре books_genre
+- *test_get_books_with_specific_genre_true* - проверяет, что метод get_books_with_specific_genre возвращает книги с заданным жанром
+- *test_get_books_for_children_true* - проверяет, что метод get_books_for_children не возвращает книги с жанром из списка genre_age_rating 
+- *test_add_book_in_favorites_true* - проверяет, что метод add_book_in_favorites добавляет книги из словаря books_genre в список favorites
+- *test_delete_book_from_favorites_true* - проверяет, что метод delete_book_from_favorites удаляет книги из списка favorites
